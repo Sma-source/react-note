@@ -27,7 +27,7 @@ function App() {
   ]);
   return (
     <div className="container">
-      <NoteList />
+      <NoteList notes={notes} />
     </div>
   );
 }
