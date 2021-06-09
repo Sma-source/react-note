@@ -49,16 +49,18 @@ function App() {
     setNotes(newNotes);
   };
   return (
-    <div className="container">
-      <Header handleToggleDarkMode={setDarkMode} />
-      <Search handleSearchNote={setSearchText} />
-      <NoteList
-        notes={notes.filter((note) =>
-          note.text.toLocaleLowerCase().includes(searchText)
-        )}
-        handleAddNote={addNote}
-        handleDeleteNote={deleteNote}
-      />
+    <div className={`${darkMode && "dark-mode"}`}>
+      <div className="container">
+        <Header handleToggleDarkMode={setDarkMode} />
+        <Search handleSearchNote={setSearchText} />
+        <NoteList
+          notes={notes.filter((note) =>
+            note.text.toLocaleLowerCase().includes(searchText)
+          )}
+          handleAddNote={addNote}
+          handleDeleteNote={deleteNote}
+        />
+      </div>
     </div>
   );
 }
