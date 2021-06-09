@@ -115,3 +115,11 @@ textarea:focus {
   background-color: #ededed;
   cursor: pointer;
 }
+
+.dark-mode {
+  background-color: black;
+}
+
+.dark-mode h1 {
+  color: white;
+}
