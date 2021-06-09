@@ -47,7 +47,7 @@ function App() {
   };
   return (
     <div className="container">
-      <Search handleSearchNoe={setSearchText} />
+      <Search handleSearchNote={setSearchText} />
       <NoteList
         notes={notes}
         handleAddNote={addNote}
