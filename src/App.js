@@ -2,6 +2,7 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 import NoteList from "./components/NoteList";
 import Search from "./components/Search";
+import Header from "./components/Header";
 
 function App() {
   const [notes, setNotes] = useState([
@@ -47,6 +48,7 @@ function App() {
   };
   return (
     <div className="container">
+      <Header />
       <Search handleSearchNote={setSearchText} />
       <NoteList
         notes={notes.filter((note) =>
