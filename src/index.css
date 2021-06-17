@@ -123,3 +123,40 @@ textarea:focus {
 .dark-mode h1 {
   color: white;
 }
+
+/* Popup component */
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-inner {
+  position: relative;
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 120px;
+  background-color: white;
+}
+.btn-contain {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.popup-inner .close-btn {
+  text-align: center;
+  margin-top: 1rem;
+  margin-right: 2rem;
+}
+
+.text-popup {
+  margin-top: 1rem;
+}
