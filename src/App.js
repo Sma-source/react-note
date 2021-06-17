@@ -49,7 +49,7 @@ function App() {
     const newNote = {
       id: nanoid(),
       text: text,
-      date: date.toLocaleDateString(),
+      date: date.toLocaleDateString("fr-FR"),
     };
     const newNotes = [...notes, newNote];
 
