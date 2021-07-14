@@ -11,6 +11,55 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(false);
 
+  const [lat, setLat] = useState([]);
+
+  const [long, setLong] = useState([]);
+
+  const [status, setStatus] = useState(null);
+
+  const [data, setData] = useState([]);
+
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus(null);
+          localStorage.setItem("location-allowed", true);
+          setLat(position.coords.latitude);
+          setLong(position.coords.longitude);
+
+          fetch(
+            `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+          )
+            .then((res) => res.json())
+            .then((result) => {
+              setData(result);
+              console.log(result);
+            });
+        },
+
+        () => {
+          setStatus("Unable to retrieve your location");
+          localStorage.removeItem("location-allowed");
+        }
+      );
+    }
+  };
+
+  // const fetchData = () => {
+  //   fetch(
+  //     `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       setData(result);
+  //       console.log(result);
+  //     });
+  // };
+
   useEffect(() => {
     const savedNotes = JSON.parse(localStorage.getItem("react-notes-app-data"));
 
@@ -41,6 +90,28 @@ function App() {
   };
   return (
     <div className={`${darkMode && "dark-mode"}`}>
+      <button onClick={getLocation}>Get Location</button>
+      <h1>Coordinates</h1>
+      <p>{status}</p>
+      {lat && <p>Latitude: {lat}</p>}
+      {long && <p>Longitude: {long}</p>}
+
+      {typeof data.main != "undefined" ? (
+        <div>
+          <div className="location-box">
+            <div className="location">
+              {data.name}, {data.sys.country}
+            </div>
+          </div>
+          <div className="weather-box">
+            <div className="temp">{Math.round(data.main.temp)}°c </div>
+            <div className="weather">{data.weather[0].main} </div>
+            <div className="weather">{data.weather[0].description} </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="container">
         <Header handleToggleDarkMode={setDarkMode} />
         <Search handleSearchNote={setSearchText} />
