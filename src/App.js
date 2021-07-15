@@ -49,14 +49,25 @@ function App() {
     setData(b);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     setLat(position.coords.latitude);
+  //     setLong(position.coords.longitude);
+  //     getWeather(position.coords.latitude, position.coords.longitude);
+  //   });
+  // }, []);
+
+  const getLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLong(position.coords.longitude);
       getWeather(position.coords.latitude, position.coords.longitude);
     });
-  }, []);
+  };
 
+  const handleClick = () => {
+    getLocation();
+  };
   // useEffect(() => {
   //   const fetchData = (lat,long) => {
   //     fetch(
@@ -101,7 +112,7 @@ function App() {
   };
   return (
     <div className={`${darkMode && "dark-mode"}`}>
-      {/* <button onClick={handleClick}>Get Location</button> */}
+      <button onClick={handleClick}>Get Location</button>
       <h1>Coordinates</h1>
       <p>{status}</p>
       {lat && <p>Latitude: {lat}</p>}
