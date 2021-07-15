@@ -19,46 +19,57 @@ function App() {
 
   const [data, setData] = useState([]);
 
-  const getLocation = () => {
-    if (!navigator.geolocation) {
-      setStatus("Geolocation is not supported by your browser");
-    } else {
-      setStatus("Locating...");
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setStatus(null);
-          localStorage.setItem("location-allowed", true);
-          setLat(position.coords.latitude);
-          setLong(position.coords.longitude);
+  // const getLocation = () => {
+  //   if (!navigator.geolocation) {
+  //     setStatus("Geolocation is not supported by your browser");
+  //   } else {
+  //     setStatus("Locating...");
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setStatus(null);
+  //         localStorage.setItem("location-allowed", true);
+  //         setLat(position.coords.latitude);
+  //         setLong(position.coords.longitude);
+  //       },
 
-          fetch(
-            `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
-          )
-            .then((res) => res.json())
-            .then((result) => {
-              setData(result);
-              console.log(result);
-            });
-        },
+  //       () => {
+  //         setStatus("Unable to retrieve your location");
+  //         localStorage.removeItem("location-allowed");
+  //       }
+  //     );
+  //   }
+  // };
 
-        () => {
-          setStatus("Unable to retrieve your location");
-          localStorage.removeItem("location-allowed");
-        }
-      );
-    }
+  const getWeather = async (lat, long) => {
+    let a = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+    );
+    let b = await a.json();
+    console.log(b);
+    setData(b);
   };
 
-  // const fetchData = () => {
-  //   fetch(
-  //     `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       setData(result);
-  //       console.log(result);
-  //     });
-  // };
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+      getWeather(position.coords.latitude, position.coords.longitude);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = (lat,long) => {
+  //     fetch(
+  //       `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+  //     )
+  //       .then((res) => res.json())
+  //       .then((result) => {
+  //         setData(result);
+  //         console.log(result);
+  //       });
+  //   };
+  //   fetchData()
+  // }, [])
 
   useEffect(() => {
     const savedNotes = JSON.parse(localStorage.getItem("react-notes-app-data"));
@@ -90,7 +101,7 @@ function App() {
   };
   return (
     <div className={`${darkMode && "dark-mode"}`}>
-      <button onClick={getLocation}>Get Location</button>
+      {/* <button onClick={handleClick}>Get Location</button> */}
       <h1>Coordinates</h1>
       <p>{status}</p>
       {lat && <p>Latitude: {lat}</p>}
@@ -103,6 +114,10 @@ function App() {
               {data.name}, {data.sys.country}
             </div>
           </div>
+          <img
+            src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+            alt="weather icon"
+          />
           <div className="weather-box">
             <div className="temp">{Math.round(data.main.temp)}°c </div>
             <div className="weather">{data.weather[0].main} </div>
