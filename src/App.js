@@ -42,7 +42,7 @@ function App() {
 
   const getWeather = async (lat, long) => {
     let a = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
+      `${process.env.REACT_APP_BASE_URL}/weather?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}&lang=fr`
     );
     let b = await a.json();
     console.log(b);
