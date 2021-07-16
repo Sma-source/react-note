@@ -114,26 +114,31 @@ function App() {
     <div className={`${darkMode && "dark-mode"}`}>
       <div className="container">
         <button onClick={handleClick}>Get Location</button>
-        <h1>Coordinates</h1>
+        {/* <h1>Coordinates</h1>
         <p>{status}</p>
         {lat && <p>Latitude: {lat}</p>}
-        {long && <p>Longitude: {long}</p>}
+        {long && <p>Longitude: {long}</p>} */}
 
         {typeof data.main != "undefined" ? (
           <div>
-            <div className="location-box">
-              <div className="location">
-                {data.name}, {data.sys.country}
+            <div className="weather-wrap">
+              <div className="locati">
+                <div>
+                  <img
+                    src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                    alt="weather icon"
+                  />
+                </div>
+
+                {/* <div className="weather">{data.weather[0].main} </div> */}
+                <div className="weather">
+                  {Math.round(data.main.temp)}°C &nbsp;
+                  {data.weather[0].description}
+                </div>
+                <div>
+                  {data.name}, {data.sys.country}
+                </div>
               </div>
-            </div>
-            <img
-              src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
-              alt="weather icon"
-            />
-            <div className="weather-box">
-              <div className="temp">{Math.round(data.main.temp)}°c </div>
-              <div className="weather">{data.weather[0].main} </div>
-              <div className="weather">{data.weather[0].description} </div>
             </div>
           </div>
         ) : (
